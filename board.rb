@@ -50,12 +50,23 @@ class Board
   end
 
   def check_square(x, y)
-    check_adjacent_squares(x, y)
-    grid[x, y]
+    unless grid[x,y].nil?
+      return grid[x,y]
+    end
+
+    grid[x,y] = check_adjacent_squares(x, y)
   end
 
   def check_adjacent_squares(x, y)
+
     return grid[x, y] if grid[x, y] == "F" || num_adjacent_bombs(grid[x, y]) > 0
+    return grid[x, y] if grid[x, y] == "_"
+
+    check_adjacent_squares(x + 1, y)
+    check_adjacent_squares(x - 1, y)
+    check_adjacent_squares(x, y + 1)
+    check_adjacent_squares(x, y - 1)
+
 
   end
 
